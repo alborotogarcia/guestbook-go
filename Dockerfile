@@ -1,11 +1,12 @@
-FROM golang:1.13-alpine3.10
+# FROM ${ARCH}golang:1.13-alpine3.10
+FROM docker.io/amd64/golang
 
 COPY . /code/guestbook-go
 WORKDIR /code/guestbook-go
-RUN CGO_ENABLED=0 go build -mod vendor
+# RUN CGO_ENABLED=0 go build -mod vendor
+RUN go build 
 
-
-FROM docker.io/alpine:3.10
+FROM docker.io/amd64/alpine:3.10
 WORKDIR /app
 RUN adduser -h /app -D web
 COPY --from=0 /code/guestbook-go/guestbook-go /app/guestbook
